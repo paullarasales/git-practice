@@ -13,6 +13,7 @@ class ProductController extends Controller
     public function index()
     {
         //
+        return Product::all();
     }
 
     /**
@@ -28,16 +29,29 @@ class ProductController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        
+        $validated = $request ->validate([
+            "name" => 'required|string|max:255',
+            "desc" => 'required|string|max:255',
+            "price" => 'required|integer'
+       ]);
+       $product = Product::create($validated);
+       return response()->json($product,201);
+  
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(Product $product)
+    public function show($id)
     {
-        //
+        $product = Product::find($id);
+
+       
+
+        return response()->json($product);
     }
+
 
     /**
      * Show the form for editing the specified resource.
@@ -53,6 +67,15 @@ class ProductController extends Controller
     public function update(Request $request, Product $product)
     {
         //
+        $validatedData = $request->validate([
+            'name' => 'sometimes|required|string|max:255',
+            'desc' => 'sometimes|required|string',
+            'price' => 'sometimes|required|integer',
+        ]);
+
+        $product->update($validatedData);
+
+        return response()->json($product, 200);
     }
 
     /**
@@ -61,5 +84,6 @@ class ProductController extends Controller
     public function destroy(Product $product)
     {
         //
+        $product->delete();
     }
 }
