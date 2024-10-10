@@ -68,9 +68,9 @@ class ProductController extends Controller
     {
         //
         $validatedData = $request->validate([
-            'name' => 'sometimes|required|string|max:255',
-            'desc' => 'sometimes|required|string',
-            'price' => 'sometimes|required|integer',
+            'name' => 'required|string|max:255',
+            'desc' => 'required|string',
+            'price' => 'required|integer',
         ]);
 
         $product->update($validatedData);
